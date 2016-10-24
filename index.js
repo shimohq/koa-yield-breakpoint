@@ -33,13 +33,17 @@ module.exports = function (opt) {
 
   // add global logger
   global[loggerName] = function *(ctx, fn, fnStr, filename) {
-    const requestId = ctx.requestId;
-    _logger('before');
+    const requestId = ctx && ctx.requestId;
+    if (requestId) {
+      _logger('before');
+    }
     let result = yield fn;
     if (isGenerator(result)) {
       result = yield result;
     }
-    _logger('after', result);
+    if (requestId) {
+      _logger('after', result);
+    }
     return result;
 
     function _logger(type, result) {
