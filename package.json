@@ -1,0 +1,38 @@
+{
+  "name": "koa-yield-breakpoint",
+  "version": "1.0.0",
+  "description": "Add breakpoints around `yield` expression especially for koa@1.",
+  "main": "index.js",
+  "keywords": [
+    "koa",
+    "yield",
+    "breakpoint"
+  ],
+  "author": {
+    "name": "nswbmw",
+    "email": "nswbmw1992@gmail.com"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=4"
+  },
+  "dependencies": {
+    "debug": "2.2.0",
+    "escodegen": "1.8.1",
+    "esprima": "3.1.0",
+    "glob": "7.1.1",
+    "is-generator": "1.0.3",
+    "lodash": "4.16.4",
+    "node-uuid": "1.4.7",
+    "shimmer": "1.1.0"
+  },
+  "devDependencies": {
+    "koa": "1.2.4",
+    "koa-route": "2.4.2",
+    "mongolass": "2.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nswbmw/koa-yield-breakpoint"
+  }
+}
