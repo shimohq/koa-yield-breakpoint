@@ -38,6 +38,12 @@ const defaultOpt = {
 
 module.exports = function (opt) {
   opt = _.defaults(opt || {}, defaultOpt);
+  opt.filter = opt.filter || {};
+  opt.filter.ctx = opt.filter.ctx || defaultOpt.filter.ctx;
+  opt.filter.request = opt.filter.request || defaultOpt.filter.request;
+  opt.filter.response = opt.filter.response || defaultOpt.filter.response;
+  debug('options: %j', opt);
+
   const loggerName = opt.loggerName;
   const files = opt.files;
   const store = opt.store || { save: (record) => console.log(record) };
