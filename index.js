@@ -1,5 +1,18 @@
 'use strict';
 
+const sourceMapCache = {};
+require('source-map-support').install({
+  retrieveSourceMap: (source) => {
+    const sourcemap = sourceMapCache[source];
+    if (sourcemap) {
+      return {
+        map: sourcemap
+      };
+    }
+    return null;
+  }
+});
+
 const assert = require('assert');
 const Module = require('module');
 
@@ -92,15 +105,20 @@ module.exports = function (opt) {
       findTypeAndAddLogger(parsedCodes, 'YieldExpression');
       try {
         content = escodegen.generate(parsedCodes, {
-          format: { indent: { style: '  ' } }
+          format: { indent: { style: '  ' } },
+          sourceMap: filename,
+          sourceMapWithCode: true
         });
       } catch (e) {
         console.error('cannot generate code for file: %s', filename);
         console.error(e.stack);
         process.exit(1);
       }
-      debug('file %s regenerate codes:\n%s', filename, content);
-      return __compile.call(this, content, filename);
+      debug('file %s regenerate codes:\n%s', filename, content.code);
+
+      // add to sourcemap cache
+      sourceMapCache[filename] = content.map.toString();
+      return __compile.call(this, content.code, filename);
 
       function findTypeAndAddLogger(node, type) {
         if (!node || typeof node !== 'object') {

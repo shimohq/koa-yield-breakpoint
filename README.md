@@ -185,6 +185,44 @@ when access `localhost:3000/users` in browser, the console print:
 
 koa-yield-breakpoint will print to console by default, if you want to save these logs to db, set `store` option, eg: [koa-yield-breakpoint-mongodb](https://github.com/nswbmw/koa-yield-breakpoint-mongodb).
 
+### SourceMap
+
+After v1.1.0, koa-yield-breakpoint support source map:
+
+**example/routes/users.js**
+
+```
+'use strict';
+
+const Mongolass = require('mongolass');
+const mongolass = new Mongolass();
+mongolass.connect('mongodb://localhost:27017/test');
+
+exports.getUsers = function* getUsers() {
+  yield mongolass.model('users').create({
+    name: 'xx',
+    age: 18
+  });
+
+  const users = yield mongolass.model('users').find();
+
+
+  console.log(haha);
+  this.body = users;
+};
+```
+
+Will output:
+
+```
+ReferenceError: haha is not defined
+    at Object.getUsers (/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:16:15)
+    at next (native)
+    at Object.<anonymous> (/Users/nswbmw/node/koa-yield-breakpoint/node_modules/koa-route/index.js:34:19)
+    at next (native)
+    at onFulfilled (/Users/nswbmw/node/koa-yield-breakpoint/node_modules/koa/node_modules/co/index.js:65:19)
+```
+
 ### Options
 
 require('koa-yield-breakpoint')(option)
