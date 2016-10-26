@@ -93,8 +93,8 @@ global.logger(
 when access `localhost:3000/users` in browser, the console print:
 
 ```
-{ requestId: '62cfc959-6302-4e99-b237-1f91cb2d1eaf',
-  timestamp: Sun Oct 23 2016 22:57:06 GMT+0800 (CST),
+{ requestId: 'dad593c0-c4a1-4640-a00e-9ba0349cfd2f',
+  timestamp: Wed Oct 26 2016 18:28:49 GMT+0800 (CST),
   this:
    { state: {},
      request:
@@ -105,10 +105,10 @@ when access `localhost:3000/users` in browser, the console print:
      response: { status: 404, body: undefined } },
   type: 'start',
   step: 1 }
-{ requestId: '62cfc959-6302-4e99-b237-1f91cb2d1eaf',
+{ requestId: 'dad593c0-c4a1-4640-a00e-9ba0349cfd2f',
   step: 2,
   filename: '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:8:2',
-  timestamp: Sun Oct 23 2016 22:57:06 GMT+0800 (CST),
+  timestamp: Wed Oct 26 2016 18:28:49 GMT+0800 (CST),
   this:
    { state: {},
      request:
@@ -119,11 +119,12 @@ when access `localhost:3000/users` in browser, the console print:
      response: { status: 404, body: undefined } },
   type: 'before',
   fn: 'mongolass.model(\'users\').create({\n    name: \'xx\',\n    age: 18\n})',
-  result: undefined }
-{ requestId: '62cfc959-6302-4e99-b237-1f91cb2d1eaf',
+  result: undefined,
+  take: '1ms' }
+{ requestId: 'dad593c0-c4a1-4640-a00e-9ba0349cfd2f',
   step: 3,
   filename: '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:8:2',
-  timestamp: Sun Oct 23 2016 22:57:06 GMT+0800 (CST),
+  timestamp: Wed Oct 26 2016 18:28:49 GMT+0800 (CST),
   this:
    { state: {},
      request:
@@ -138,11 +139,12 @@ when access `localhost:3000/users` in browser, the console print:
    { result: { ok: 1, n: 1 },
      ops: [ [Object] ],
      insertedCount: 1,
-     insertedIds: [ , 580ccfc2f467ee572368eade ] } }
-{ requestId: '62cfc959-6302-4e99-b237-1f91cb2d1eaf',
+     insertedIds: [ undefined, 5810856182d0eea2f12030fd ] },
+  take: '7ms' }
+{ requestId: 'dad593c0-c4a1-4640-a00e-9ba0349cfd2f',
   step: 4,
   filename: '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:13:16',
-  timestamp: Sun Oct 23 2016 22:57:06 GMT+0800 (CST),
+  timestamp: Wed Oct 26 2016 18:28:49 GMT+0800 (CST),
   this:
    { state: {},
      request:
@@ -153,11 +155,12 @@ when access `localhost:3000/users` in browser, the console print:
      response: { status: 404, body: undefined } },
   type: 'before',
   fn: 'mongolass.model(\'users\').find()',
-  result: undefined }
-{ requestId: '62cfc959-6302-4e99-b237-1f91cb2d1eaf',
+  result: undefined,
+  take: '1ms' }
+{ requestId: 'dad593c0-c4a1-4640-a00e-9ba0349cfd2f',
   step: 5,
   filename: '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:13:16',
-  timestamp: Sun Oct 23 2016 22:57:06 GMT+0800 (CST),
+  timestamp: Wed Oct 26 2016 18:28:49 GMT+0800 (CST),
   this:
    { state: {},
      request:
@@ -168,9 +171,10 @@ when access `localhost:3000/users` in browser, the console print:
      response: { status: 404, body: undefined } },
   type: 'after',
   fn: 'mongolass.model(\'users\').find()',
-  result: [ { _id: 580ccfc2f467ee572368eade, name: 'xx', age: 18 } ] }
-{ requestId: '62cfc959-6302-4e99-b237-1f91cb2d1eaf',
-  timestamp: Sun Oct 23 2016 22:57:06 GMT+0800 (CST),
+  result: [ { _id: 5810856182d0eea2f12030fd, name: 'xx', age: 18 } ],
+  take: '4ms' }
+{ requestId: 'dad593c0-c4a1-4640-a00e-9ba0349cfd2f',
+  timestamp: Wed Oct 26 2016 18:28:49 GMT+0800 (CST),
   this:
    { state: {},
      request:
@@ -180,7 +184,8 @@ when access `localhost:3000/users` in browser, the console print:
         query: [Object] },
      response: { status: 200, body: [Object] } },
   type: 'end',
-  step: 6 }
+  step: 6,
+  take: '1ms' }
 ```
 
 koa-yield-breakpoint will print to console by default, if you want to save these logs to db, set `store` option, eg: [koa-yield-breakpoint-mongodb](https://github.com/nswbmw/koa-yield-breakpoint-mongodb).
