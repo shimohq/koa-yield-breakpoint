@@ -1,6 +1,6 @@
 {
   "name": "koa-yield-breakpoint",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Add breakpoints around `yield` expression especially for koa@1.",
   "main": "index.js",
   "keywords": [
@@ -23,6 +23,7 @@
     "glob": "7.1.1",
     "is-generator": "1.0.3",
     "lodash": "4.16.4",
+    "ms": "0.7.2",
     "node-uuid": "1.4.7",
     "shimmer": "1.1.0",
     "source-map-support": "0.4.5"

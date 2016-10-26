@@ -16,6 +16,7 @@ require('source-map-support').install({
 const assert = require('assert');
 const Module = require('module');
 
+const ms = require('ms');
 const _ = require('lodash');
 const glob = require('glob');
 const uuid = require('node-uuid');
@@ -84,7 +85,9 @@ module.exports = function (opt) {
         fn: fnStr,
         result
       };
+      addTake(ctx, record);
       debug(record);
+
       store.save(record);
     }
   };
@@ -188,6 +191,7 @@ module.exports = function (opt) {
       this.requestId = uuid.v4();
     }
     this.step = 0;
+    this.timestamps = {};
 
     _logger(this, 'start');
     yield next;
@@ -205,9 +209,18 @@ module.exports = function (opt) {
         type,
         step: ++ctx.step
       };
-
+      addTake(ctx, record);
       debug(record);
+
       store.save(record);
     }
   };
 };
+
+function addTake(ctx, record) {
+  ctx.timestamps[record.step] = record.timestamp;
+  const prevTimestamp = ctx.timestamps[record.step - 1];
+  if (prevTimestamp) {
+    record.take = ms(record.timestamp - prevTimestamp);
+  }
+}
