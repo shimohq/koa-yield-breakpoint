@@ -238,4 +238,7 @@ require('koa-yield-breakpoint')(option)
 }
 ```
 - loggerName{String}: global logger name, default `logger`.
+- yieldCondition{Function}: parameters `(filename, yieldExpression, parsedYieldExpression)`, return a object:
+  - wrapYield{Boolean}: if `true` return wraped yieldExpression, default `true`.
+  - deep{Boolean}: if `true` deep wrap yieldExpression, default `true`.
 - others: see [glob](https://github.com/isaacs/node-glob#options).

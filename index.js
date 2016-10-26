@@ -47,8 +47,12 @@ module.exports = function (opt) {
   const loggerName = opt.loggerName;
   const files = opt.files;
   const store = opt.store || { save: (record) => console.log(record) };
+  const yieldCondition = opt.yieldCondition;
   assert(files && _.isArray(files), '`files`{array} option required');
   assert(store && _.isFunction(store.save), '`store.save`{function} option required, see: koa-yield-breakpoint-mongodb');
+  if (yieldCondition) {
+    assert(_.isFunction(yieldCondition), '`yieldCondition` option must be function');
+  }
 
   // add global logger
   global[loggerName] = function *(ctx, fn, fnStr, filename) {
@@ -108,7 +112,7 @@ module.exports = function (opt) {
         process.exit(1);
       }
 
-      findTypeAndAddLogger(parsedCodes, 'YieldExpression');
+      findYieldAndWrapLogger(parsedCodes);
       try {
         content = escodegen.generate(parsedCodes, {
           format: { indent: { style: '  ' } },
@@ -126,40 +130,53 @@ module.exports = function (opt) {
       sourceMapCache[filename] = content.map.toString();
       return __compile.call(this, content.code, filename);
 
-      function findTypeAndAddLogger(node, type) {
+      function findYieldAndWrapLogger(node) {
         if (!node || typeof node !== 'object') {
           return;
         }
-        if (node.hasOwnProperty('type') && node.type === type) {
+        let condition = {
+          wrapYield: true,
+          deep: true
+        };
+
+        if (node.hasOwnProperty('type') && node.type === 'YieldExpression') {
           const codeLine = node.loc.start;
           const __argument = node.argument;
-
-          let expressionStr = escodegen.generate(__argument);
-          expressionStr = `
+          const __expressionStr = escodegen.generate(__argument);
+          const expressionStr = `
             global.${loggerName}(
               this,
               function*(){
-                return ${expressionStr}
+                return ${__expressionStr}
               },
-              ${JSON.stringify(expressionStr)},
+              ${JSON.stringify(__expressionStr)},
               ${JSON.stringify(filename + ':' + codeLine.line + ':' + codeLine.column)}
             )`;
-          try {
-            node.argument = esprima.parse(expressionStr, { loc: true }).body[0].expression;
+
+          if (yieldCondition) {
+            condition = yieldCondition(filename, __expressionStr, __argument) || condition;
+            assert(typeof condition === 'object', '`yieldCondition` must return a object');
+          }
+          if (condition.wrapYield) {
             try {
-              // try correct loc
-              node.argument.arguments[1].callee.object.body.body[0].argument = __argument;
-            } catch (e) {/* empty */}
-          } catch (e) {
-            console.error('cannot parse expression:');
-            console.error(expressionStr);
-            console.error(e.stack);
-            process.exit(1);
+              node.argument = esprima.parse(expressionStr, { loc: true }).body[0].expression;
+              try {
+                // try correct loc
+                node.argument.arguments[1].callee.object.body.body[0].argument = __argument;
+              } catch (e) {/* empty */}
+            } catch (e) {
+              console.error('cannot parse expression:');
+              console.error(expressionStr);
+              console.error(e.stack);
+              process.exit(1);
+            }
           }
         }
-        for (const key in node) {
-          if (node.hasOwnProperty(key)) {
-            findTypeAndAddLogger(node[key], type);
+        if (condition.deep) {
+          for (const key in node) {
+            if (node.hasOwnProperty(key)) {
+              findYieldAndWrapLogger(node[key]);
+            }
           }
         }
       }
