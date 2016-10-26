@@ -61,7 +61,7 @@ module.exports = function (opt) {
       _logger('before');
     }
     let result = yield fn.call(ctx);
-    if (isGenerator(result)) {
+    if (isGenerator(result) || _.isPlainObject(result) || _.isArray(result)) {
       result = yield result;
     }
     if (requestId) {
