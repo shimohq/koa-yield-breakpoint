@@ -69,10 +69,10 @@ exports.getUsers = function* getUsers() {
       name: 'xx',
       age: 18
     });
-  }.call(this), 'mongolass.model(\'users\').create({\n    name: \'xx\',\n    age: 18\n})', '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:8:2');
+  }, 'mongolass.model(\'users\').create({\n    name: \'xx\',\n    age: 18\n})', '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:8:2');
   const users = yield global.logger(this, function* () {
     return mongolass.model('users').find();
-  }.call(this), 'mongolass.model(\'users\').find()', '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:13:16');
+  }, 'mongolass.model(\'users\').find()', '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:13:16');
   this.body = users;
 };
 ```
@@ -82,9 +82,9 @@ As you see, koa-yield-breakpoint wrap `YieldExpression` with:
 ```
 global.logger(
   this,
-  (function*(){
+  function*(){
     return YieldExpression
-  }).call(this),
+  },
   YieldExpressionString,
   filename
 );

@@ -56,7 +56,7 @@ module.exports = function (opt) {
     if (requestId) {
       _logger('before');
     }
-    let result = yield fn;
+    let result = yield fn.call(ctx);
     if (isGenerator(result)) {
       result = yield result;
     }
@@ -138,9 +138,9 @@ module.exports = function (opt) {
           expressionStr = `
             global.${loggerName}(
               this,
-              (function*(){
+              function*(){
                 return ${expressionStr}
-              }).call(this),
+              },
               ${JSON.stringify(expressionStr)},
               ${JSON.stringify(filename + ':' + codeLine.line + ':' + codeLine.column)}
             )`;
