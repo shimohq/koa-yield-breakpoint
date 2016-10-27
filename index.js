@@ -194,10 +194,16 @@ module.exports = function (opt) {
     this.timestamps = {};
 
     _logger(this, 'start');
-    yield next;
-    _logger(this, 'end');
+    try {
+      yield next;
+    } catch (e) {
+      _logger(this, 'error', e);
+      throw e;
+    } finally {
+      _logger(this, 'end');
+    }
 
-    function _logger(ctx, type) {
+    function _logger(ctx, type, err) {
       const _this = _.pick(ctx, opt.filter.ctx);
       _this.request = _.pick(ctx.request, opt.filter.request);
       _this.response = _.pick(ctx.response, opt.filter.response);
@@ -209,6 +215,9 @@ module.exports = function (opt) {
         type,
         step: ++ctx.step
       };
+      if (err) {
+        record.error = err;
+      }
       addTake(ctx, record);
       debug(record);
 
