@@ -34,7 +34,8 @@ const defaultOpt = {
     request: ['method', 'path', 'header', 'query', 'body'],
     response: ['status', 'body']
   },
-  loggerName: 'logger'
+  loggerName: 'logger',
+  requestIdPath: 'requestId'
 };
 
 module.exports = function (opt) {
@@ -46,9 +47,11 @@ module.exports = function (opt) {
   debug('options: %j', opt);
 
   const loggerName = opt.loggerName;
+  const requestIdPath = opt.requestIdPath;
   const files = opt.files;
-  const store = opt.store || { save: (record) => console.log(record) };
+  const store = opt.store || { save: (record) => console.log('%j', record) };
   const yieldCondition = opt.yieldCondition;
+  assert(requestIdPath && _.isString(requestIdPath), '`requestIdPath` option must be string');
   assert(files && _.isArray(files), '`files`{array} option required');
   assert(store && _.isFunction(store.save), '`store.save`{function} option required, see: koa-yield-breakpoint-mongodb');
   if (yieldCondition) {
@@ -57,7 +60,7 @@ module.exports = function (opt) {
 
   // add global logger
   global[loggerName] = function *(ctx, fn, fnStr, filename) {
-    const requestId = ctx && ctx.requestId;
+    const requestId = ctx && _.get(ctx, requestIdPath);
     if (requestId) {
       _logger('before');
     }
@@ -187,8 +190,8 @@ module.exports = function (opt) {
   });
 
   return function *koaYieldBreakpoint(next) {
-    if (!this.requestId) {
-      this.requestId = uuid.v4();
+    if (!_.get(this, requestIdPath)) {
+      _.set(this, requestIdPath, uuid.v4());
     }
     this.step = 0;
     this.timestamps = {};
@@ -209,7 +212,7 @@ module.exports = function (opt) {
       _this.response = _.pick(ctx.response, opt.filter.response);
 
       const record = {
-        requestId: ctx.requestId,
+        requestId: _.get(ctx, requestIdPath),
         timestamp: new Date(),
         this: _this,
         type,

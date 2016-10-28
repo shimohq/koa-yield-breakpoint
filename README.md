@@ -243,6 +243,7 @@ require('koa-yield-breakpoint')(option)
 }
 ```
 - loggerName{String}: global logger name, default `logger`.
+- requestIdPath{String}: requestId path in `this`, default `requestId`.
 - yieldCondition{Function}: parameters `(filename, yieldExpression, parsedYieldExpression)`, return a object:
   - wrapYield{Boolean}: if `true` return wraped yieldExpression, default `true`.
   - deep{Boolean}: if `true` deep wrap yieldExpression, default `true`.
