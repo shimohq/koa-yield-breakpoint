@@ -190,6 +190,8 @@ when access `localhost:3000/users` in browser, the console print:
 
 koa-yield-breakpoint will print to console by default, if you want to save these logs to db, set `store` option, eg: [koa-yield-breakpoint-mongodb](https://github.com/nswbmw/koa-yield-breakpoint-mongodb).
 
+**NB:** `type` in `['start', 'beforeYield', 'afterYield', 'error', 'end']`.
+
 ### SourceMap
 
 After v1.1.0, koa-yield-breakpoint support source map:

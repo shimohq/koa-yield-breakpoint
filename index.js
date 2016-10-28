@@ -62,14 +62,14 @@ module.exports = function (opt) {
   global[loggerName] = function *(ctx, fn, fnStr, filename) {
     const requestId = ctx && _.get(ctx, requestIdPath);
     if (requestId) {
-      _logger('before');
+      _logger('beforeYield');
     }
     let result = yield fn.call(ctx);
     if (isGenerator(result) || _.isPlainObject(result) || _.isArray(result)) {
       result = yield result;
     }
     if (requestId) {
-      _logger('after', result);
+      _logger('afterYield', result);
     }
     return result;
 
