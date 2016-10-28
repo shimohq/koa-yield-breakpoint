@@ -60,7 +60,11 @@ module.exports = function (opt) {
 
   // add global logger
   global[loggerName] = function *(ctx, fn, fnStr, filename) {
-    const requestId = ctx && _.get(ctx, requestIdPath);
+    let requestId;
+    try {
+      requestId = ctx.app && _.get(ctx, requestIdPath);// ensure koa request
+    } catch (e) {/* empty */}
+
     if (requestId) {
       _logger('beforeYield');
     }
