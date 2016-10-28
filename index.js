@@ -91,7 +91,7 @@ module.exports = function (opt) {
       addTake(ctx, record);
       debug(record);
 
-      store.save(record);
+      store.save(record, ctx);
     }
   };
 
@@ -224,7 +224,7 @@ module.exports = function (opt) {
       addTake(ctx, record);
       debug(record);
 
-      store.save(record);
+      store.save(record, ctx);
     }
   };
 };
