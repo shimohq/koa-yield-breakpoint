@@ -16,7 +16,6 @@ require('source-map-support').install({
 const assert = require('assert');
 const Module = require('module');
 
-const ms = require('ms');
 const _ = require('lodash');
 const glob = require('glob');
 const uuid = require('node-uuid');
@@ -237,6 +236,6 @@ function addTake(ctx, record) {
   ctx.timestamps[record.step] = record.timestamp;
   const prevTimestamp = ctx.timestamps[record.step - 1];
   if (prevTimestamp) {
-    record.take = ms(record.timestamp - prevTimestamp);
+    record.take = record.timestamp - prevTimestamp;
   }
 }
