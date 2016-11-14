@@ -237,5 +237,8 @@ function addTake(ctx, record) {
   const prevTimestamp = ctx.timestamps[record.step - 1];
   if (prevTimestamp) {
     record.take = record.timestamp - prevTimestamp;
+  } else {
+    // start default 0
+    record.take = 0;
   }
 }

@@ -104,7 +104,8 @@ when access `localhost:3000/users` in browser, the console print:
         query: [Object] },
      response: { status: 404, body: undefined } },
   type: 'start',
-  step: 1 }
+  step: 1,
+  take: 0 }
 { requestId: 'dad593c0-c4a1-4640-a00e-9ba0349cfd2f',
   step: 2,
   filename: '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:8:2',
