@@ -236,6 +236,7 @@ ReferenceError: haha is not defined
 require('koa-yield-breakpoint')(option)
 
 - files{String[]}: files pattern, see [glob](https://github.com/isaacs/node-glob), required.
+- exclude_files{String[]}: exclude files pattern, default `[]`.
 - store{Object}: backend store instance, see [koa-yield-breakpoint-mongodb](https://github.com/nswbmw/koa-yield-breakpoint-mongodb), default print to console.
 - filter{Object}: reserved field in koa's `this`, default:
 ```
