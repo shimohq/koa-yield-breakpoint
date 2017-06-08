@@ -116,7 +116,13 @@ module.exports = function (opt) {
   shimmer.wrap(Module.prototype, '_compile', function (__compile) {
     return function koaBreakpointCompile(content, filename) {
       if (!_.includes(filenames, filename)) {
-        return __compile.call(this, content, filename);
+        try {
+          return __compile.call(this, content, filename);
+        } catch(e) {
+          console.error('cannot compile file: %s', filename);
+          console.error(e.stack);
+          process.exit(1);
+        }
       }
 
       let parsedCodes;
