@@ -119,8 +119,9 @@ module.exports = function (opt) {
         try {
           return __compile.call(this, content, filename);
         } catch(e) {
-          console.error('cannot compile file: %s', filename);
-          console.error(e.stack);
+          // `try { require('...') } catch (e) { ... }` will not print compile error message
+          debug('cannot compile file: %s', filename);
+          debug(e.stack);
           throw e;
         }
       }
