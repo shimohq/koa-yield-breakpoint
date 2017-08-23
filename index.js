@@ -70,7 +70,7 @@ module.exports = function (opt) {
     if (requestId) {
       _logger('beforeYield');
     }
-    const result = yield fn.call(ctx);
+    const result = yield* fn.call(ctx);
     if (requestId) {
       _logger('afterYield', result);
     }
