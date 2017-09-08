@@ -10,7 +10,7 @@ cd example && DEBUG=koa-yield-breakpoint node app
 
 **app.js**
 
-```
+```js
 'use strict';
 
 const koaYieldBreakpoint = require('koa-yield-breakpoint')({
@@ -38,7 +38,7 @@ app.listen(3000, () => {
 
 **routes/users.js**
 
-```
+```js
 'use strict';
 
 const Mongolass = require('mongolass');
@@ -58,7 +58,7 @@ exports.getUsers = function* getUsers() {
 
 After added breakpoints:
 
-```
+```js
 'use strict';
 const Mongolass = require('mongolass');
 const mongolass = new Mongolass();
@@ -79,7 +79,7 @@ exports.getUsers = function* getUsers() {
 
 As you see, koa-yield-breakpoint wrap `YieldExpression` with:
 
-```
+```js
 global.logger(
   this,
   function*(){
@@ -92,7 +92,7 @@ global.logger(
 
 when access `localhost:3000/users` in browser, the console print:
 
-```
+```js
 { requestId: 'dad593c0-c4a1-4640-a00e-9ba0349cfd2f',
   timestamp: Wed Oct 26 2016 18:28:49 GMT+0800 (CST),
   this:
@@ -199,7 +199,7 @@ After v1.1.0, koa-yield-breakpoint support source map:
 
 **example/routes/users.js**
 
-```
+```js
 'use strict';
 
 const Mongolass = require('mongolass');
@@ -222,7 +222,7 @@ exports.getUsers = function* getUsers() {
 
 Will output:
 
-```
+```js
 ReferenceError: haha is not defined
     at Object.getUsers (/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:16:15)
     at next (native)
