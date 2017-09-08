@@ -64,13 +64,13 @@ const Mongolass = require('mongolass');
 const mongolass = new Mongolass();
 mongolass.connect('mongodb://localhost:27017/test');
 exports.getUsers = function* getUsers() {
-  yield global.logger(this, function* () {
+  yield* global.logger(this, function* () {
     return yield mongolass.model('users').create({
       name: 'xx',
       age: 18
     });
   }, 'mongolass.model(\'users\').create({\n    name: \'xx\',\n    age: 18\n})', '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:8:2');
-  const users = yield global.logger(this, function* () {
+  const users = yield* global.logger(this, function* () {
     return yield mongolass.model('users').find();
   }, 'mongolass.model(\'users\').find()', '/Users/nswbmw/node/koa-yield-breakpoint/example/routes/users.js:13:16');
   this.body = users;

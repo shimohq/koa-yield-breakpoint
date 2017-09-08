@@ -183,6 +183,7 @@ module.exports = function (opt) {
           if (condition.wrapYield) {
             try {
               node.argument = esprima.parse(expressionStr, { loc: true }).body[0].expression;
+              node.delegate = true;
               try {
                 // skip process this YieldExpression
                 node.argument.arguments[1].body.body[0].argument.__skip = true;
