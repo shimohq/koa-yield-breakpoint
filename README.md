@@ -235,6 +235,7 @@ ReferenceError: haha is not defined
 
 require('koa-yield-breakpoint')(option)
 
+- sourcemap{Boolean}: whether open sourcemap, default: `true`, will increase memory usage.
 - files{String[]}: files pattern, see [glob](https://github.com/isaacs/node-glob), required.
 - exclude_files{String[]}: exclude files pattern, default `[]`.
 - store{Object}: backend store instance, see [koa-yield-breakpoint-mongodb](https://github.com/nswbmw/koa-yield-breakpoint-mongodb), default print to console.

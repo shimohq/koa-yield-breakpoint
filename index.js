@@ -27,6 +27,7 @@ const escodegen = require('escodegen');
 const debug = require('debug')('koa-yield-breakpoint');
 
 const defaultOpt = {
+  sourcemap: true,
   nodir: true,
   absolute: true,
   filter: {
@@ -52,6 +53,7 @@ module.exports = function (opt) {
   const exclude_files = opt.exclude_files || [];
   const store = opt.store || { save: (record) => console.log('%j', record) };
   const yieldCondition = opt.yieldCondition;
+  const sourcemap = opt.sourcemap;
   assert(requestIdPath && _.isString(requestIdPath), '`requestIdPath` option must be string');
   assert(files && _.isArray(files), '`files`{array} option required');
   assert(_.isArray(exclude_files), '`exclude_files`{array} option required');
@@ -150,7 +152,9 @@ module.exports = function (opt) {
       debug('file %s regenerate codes:\n%s', filename, content.code);
 
       // add to sourcemap cache
-      sourceMapCache[filename] = content.map.toString();
+      if (sourcemap) {
+        sourceMapCache[filename] = content.map.toString();
+      }
       return __compile.call(this, content.code, filename);
 
       function findYieldAndWrapLogger(node) {
