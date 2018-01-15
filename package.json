@@ -1,8 +1,12 @@
 {
   "name": "koa-yield-breakpoint",
-  "version": "1.11.1",
+  "version": "2.0.0",
   "description": "Add breakpoints around `yield` expression especially for koa@1.",
   "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node example/app"
+  },
   "keywords": [
     "koa",
     "yield",
@@ -10,26 +14,32 @@
   ],
   "author": {
     "name": "nswbmw",
-    "email": "nswbmw1992@gmail.com"
+    "url": "https://github.com/nswbmw"
   },
   "license": "MIT",
   "engines": {
-    "node": ">=4"
+    "node": ">=8.1"
   },
   "dependencies": {
-    "debug": "2.6.6",
-    "escodegen": "1.8.1",
+    "debug": "3.1.0",
+    "escodegen": "1.9.0",
     "esprima": "4.0.0",
-    "glob": "7.1.1",
+    "glob": "7.1.2",
     "lodash": "4.17.4",
     "node-uuid": "1.4.8",
-    "shimmer": "1.1.0",
-    "source-map-support": "0.4.15"
+    "shimmer": "1.2.0",
+    "source-map-support": "0.5.0"
   },
   "devDependencies": {
-    "koa": "1.2.4",
+    "eslint": "4.15.0",
+    "eslint-config-standard": "11.0.0-beta.0",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-node": "5.2.1",
+    "eslint-plugin-promise": "3.6.0",
+    "eslint-plugin-standard": "3.0.1",
+    "koa": "1.4.1",
     "koa-route": "2.4.2",
-    "mongolass": "2.4.5"
+    "mongolass": "4.1.0"
   },
   "repository": {
     "type": "git",
