@@ -97,7 +97,15 @@ module.exports = function (opt) {
     if (requestId) {
       prevRecord = _logger('beforeYield')
     }
-    const result = yield * fn.call(originalContext)
+    let result
+    try {
+      result = yield * fn.call(originalContext)
+    } catch (e) {
+      // use innermost error info
+      e._fn = e._fn || fnStr
+      e._filename = e._filename || filename
+      throw e
+    }
     if (requestId) {
       _logger('afterYield', result, prevRecord && prevRecord.timestamp)
     }
@@ -276,6 +284,10 @@ module.exports = function (opt) {
       }
       if (err) {
         record.error = err
+        record.fn = err._fn
+        record.filename = err._filename
+        delete err._fn
+        delete err._filename
       }
       addTake(ctx, record)
       debug(record)

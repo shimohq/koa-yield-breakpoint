@@ -1,4 +1,8 @@
-## 2018-01-123/2.0.2
+## 2018-01-24/2.1.0
+
+- feat: add `fn` & `filename` when error
+
+## 2018-01-23/2.0.2
 
 - feat: add `name` for log
 
